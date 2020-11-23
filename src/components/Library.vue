@@ -1,7 +1,10 @@
 <template>
   <h1 class="title">Biblioteca de jogos</h1>
   <div class="games" v-if="!isLoading">
-    <Presentation :game="game" v-for="game in games" :key="game.id"/>
+    <div class="detail-container" v-if="selectedGame">
+        <Detail :game="selectedGame"/>
+    </div>
+    <Presentation @click="showDetail(game)" :game="game" v-for="game in games" :key="game.id"/>
   </div>
   <div v-else-if="isLoading">
     <Loader/>
@@ -10,12 +13,19 @@
 
 <script>
 import Presentation from './Presentation';
+import Detail from './Detail';
 import Loader from './Loader';
 
 export default {
     components: {
         Presentation,
+        Detail,
         Loader
+    },
+    methods: {
+        showDetail: function(game) {
+            this.selectedGame = game;
+        }
     },
     mounted() {
         const games = [
@@ -59,7 +69,8 @@ export default {
     data() {
         return {
             games: [],
-            isLoading: true
+            isLoading: true,
+            selectedGame: null
         }
     },
 }
@@ -70,11 +81,15 @@ export default {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: space-around;
     }
 
     .title {
         text-align: center;
+    }
+
+    .detail-container {
+        width: 100%;
     }
 
 </style>
