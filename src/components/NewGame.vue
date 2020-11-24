@@ -44,7 +44,8 @@ export default {
       name: '',
       price: 0,
       description: '',
-      image: ''
+      image: '',
+      statusMsg: null
     }
   },
   methods: {
@@ -55,13 +56,16 @@ export default {
       }
       const game = { name: this.name, description: this.description, image: this.image, price: this.price }
       createGame(game)
-        .then(() => {
-          alert('Jogo criado com sucesso!');
-
+        .then((data) => {
+          if (data) {
           this.name = '';
           this.price = 0;
           this.description = '';
           this.image = '';
+            alert('Sucesso ao criar jogo')
+          } else {
+            alert('Falha ao criar jogo')
+          }
         });
     }
   }
