@@ -4,9 +4,14 @@
     <div class="detail-container" v-if="selectedGame">
         <Detail :game="selectedGame"/>
     </div>
+    <div v-if="games.length === 0">
+        Buscando jogos...
+        <Loader/>
+    </div>
     <Presentation @click="showDetail(game)" :game="game" v-for="game in games" :key="game.id"/>
   </div>
-  <div v-else-if="isLoading">
+  <div v-else-if="isLoading" class="loading-container">
+    Buscando jogos...
     <Loader/>
   </div>
 </template>
@@ -15,6 +20,8 @@
 import Presentation from './Presentation';
 import Detail from './Detail';
 import Loader from './Loader';
+
+import axios from 'axios';
 
 export default {
     components: {
@@ -28,43 +35,20 @@ export default {
         }
     },
     mounted() {
-        const games = [
-            { 
-                id: 1, 
-                price: 120,
-                image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/42700/header.jpg', 
-                name: 'call of duty', 
-                description: 'Um jogo de guerra foda pkrl!'},
-            { 
-                id: 2, 
-                price: 60,
-                image: 'https://www.minecraft.net/content/dam/games/minecraft/screenshots/massivelymultiplayer.png', 
-                name: 'minecraft', 
-                description: 'Pra que vida social, se vc pode minerar matar zumbis?'},
-            { 
-                id: 3, 
-                price: 30,
-                image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg', 
-                name: 'counter strike: global offensive', 
-                description: 'Bota a cara varanda pai!'},
-            { 
-                id: 4, 
-                price: 45,
-                image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/286690/header.jpg', 
-                name: 'metro 2033', 
-                description: 'Seja um lobo solitário sobrevivencialista.'},
-            { 
-                id: 5, 
-                price: 0,
-                image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg', 
-                name: 'dota 2', 
-                description: 'Eu sei onde vc gosta de sentar... e não é na cadeira kkk'}
-        ];
-
         setTimeout(() => {
-            this.games = games;
-            this.isLoading = false;
-        }, 1200);
+            axios.get('http://localhost:1337/games')
+                .then((data) => {
+                    const games = data.data._embedded.games;
+                    this.games = games;
+                    this.isLoading = false;
+                })
+                .catch(() => {
+                    alert('Falha ao carregar');
+                    this.isLoading = false;
+
+                    this.games.push({ name: "teste", description: "teste", price: 100, image: "https://picsum.photos/200/300"})
+                })
+        }, 3000);
     },
     data() {
         return {
@@ -90,6 +74,10 @@ export default {
 
     .detail-container {
         width: 100%;
+    }
+
+    .loading-container {
+        text-align: center;
     }
 
 </style>
