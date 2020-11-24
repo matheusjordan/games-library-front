@@ -41,7 +41,7 @@ export default {
                     this.games = games;
                     this.isLoading = false;
                 });           
-        }, 10000);
+        }, 3000);
     },
     data() {
         return {

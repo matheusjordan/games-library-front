@@ -4,7 +4,7 @@
         <img :src="game.image">
 
         <div class="edit-actions" v-if="editMode">
-             <button disabled>Cancelar</button>
+            <button @click="treatEdit">Cancelar</button>
             <button @click="saveGame">Salvar</button>
         </div>
     </div>
@@ -41,6 +41,9 @@
                 <input type="text" v-model="image">
             </div>
         </div>
+        <div class="container edit-actions" v-if="!editMode">
+            <button @click="treatEdit"> Editar </button>
+        </div>
     </div>
   </div>
 </template>
@@ -50,7 +53,6 @@ import { updateGame } from '../shared/services/games.service';
 export default {
     props: {
         game: Object,
-        editMode: Boolean
     },
     methods: {
         saveGame: function() {
@@ -59,22 +61,28 @@ export default {
                 name: this.name,
                 description: this.description,
                 price: this.price,
-                image: this.image 
+                image: this.image,
+                editMode: true 
             }
 
             updateGame(game)
                 .then((sucess) => {
                     alert(sucess ? 'sucesso' : 'falha')
-                })
+                    this.treatEdit();
+                });
+        },
+        treatEdit: function() {
+            this.editMode = !this.editMode;
         }
     },
     data() {
-        console.log(this.game)
+        let editMode = false;
         return {
             price: this.game.price,
             name: this.game.name,
             description: this.game.description,
             image: this.game.image,
+            editMode
         }
     }
 }
