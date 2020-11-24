@@ -4,15 +4,13 @@
       SteamBR
     </label>
   </nav>
-  <Library/>
+
+  <router-view/>
 </template>
 
 <script>
-import Library from './Library';
-
 export default {
     components: {
-        Library
     }
 }
 </script>

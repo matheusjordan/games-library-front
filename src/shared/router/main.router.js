@@ -1,9 +1,9 @@
-import Home from '../../components/Home';
+import Library from '../../components/Library';
 
 const routes = [
     {
         path: '/',
-        component: Home
+        component: Library
     }
 ];
 
