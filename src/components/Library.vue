@@ -2,7 +2,7 @@
   <h1 class="title">Biblioteca de jogos</h1>
   <div class="games" v-if="!isLoading">
     <div class="detail-container" v-if="selectedGame">
-        <Detail :game="selectedGame"/>
+        <Detail :game="selectedGame" :editMode="true"/>
     </div>
     <div v-if="games.length === 0">
         Buscando jogos...
@@ -41,7 +41,7 @@ export default {
                     this.games = games;
                     this.isLoading = false;
                 });           
-        }, 3000);
+        }, 10000);
     },
     data() {
         return {
