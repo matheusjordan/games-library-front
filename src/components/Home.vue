@@ -3,6 +3,18 @@
     <label>
       SteamBR
     </label>
+
+    <div class="router-container">
+      <button>
+        <router-link 
+          to="/">Home</router-link>
+      </button>
+
+      <button>
+        <router-link
+        to="/new">Cadastrar Jogo</router-link>
+      </button>
+    </div>
   </nav>
 
   <router-view/>
@@ -11,6 +23,17 @@
 <script>
 export default {
     components: {
+    },
+    methods: {
+      changeActualPath: function(path) {
+        this.actualPath = path;
+        console.count()
+      }
+    },
+    data() {
+      return {
+        actualPath: '/'
+      }
     }
 }
 </script>
@@ -25,7 +48,17 @@ export default {
 
   .navbar > label {
     margin: auto;
+    margin-left: 16px;
     font-weight: 600;
     font-size: 1.6rem;
+  }
+
+  .router-container {
+    display: flex;
+    padding: 16px;
+  }
+
+  .router-container > button:first-of-type {
+    margin-right: 16px;
   }
 </style>
