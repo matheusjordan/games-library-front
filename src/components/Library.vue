@@ -17,11 +17,11 @@
 </template>
 
 <script>
+import { getGames } from '../shared/services/games.service';
+
 import Presentation from './Presentation';
 import Detail from './Detail';
 import Loader from './Loader';
-
-import axios from 'axios';
 
 export default {
     components: {
@@ -36,18 +36,11 @@ export default {
     },
     mounted() {
         setTimeout(() => {
-            axios.get('http://localhost:1337/games')
-                .then((data) => {
-                    const games = data.data._embedded.games;
+            getGames('http://localhost:1337/games')
+                .then((games) => {
                     this.games = games;
                     this.isLoading = false;
-                })
-                .catch(() => {
-                    alert('Falha ao carregar');
-                    this.isLoading = false;
-
-                    this.games.push({ name: "teste", description: "teste", price: 100, image: "https://picsum.photos/200/300"})
-                })
+                });           
         }, 3000);
     },
     data() {
