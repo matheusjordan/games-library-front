@@ -21,8 +21,17 @@ const getGames = async () => {
 const updateGame = async (game) => {
     const url = `http://localhost:1337/games/${game.id}`;
     try {
-        const response = axios.post(url, game);
-        console.log(response)
+        await axios.put(url, game);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+const createGame = async (game) => {
+    const url = `http://localhost:1337/games`;
+    try {
+        await axios.post(url, game);
         return true;
     } catch {
         return false;
@@ -31,5 +40,6 @@ const updateGame = async (game) => {
 
 export {
     getGames,
-    updateGame
+    updateGame,
+    createGame
 }
