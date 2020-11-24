@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const defaultGame = { id: 1, name: "teste", description: "teste", price: 100, image: "https://picsum.photos/200/300"};
+// const defaultGame = { id: 1, name: "teste", description: "teste", price: 100, image: "https://picsum.photos/200/300"};
 
 const getGames = async () => {
     let url = 'http://localhost:1337/games';    
@@ -10,11 +10,16 @@ const getGames = async () => {
         const content = response.data._embedded;
         let games = content.games;
 
-        games = (games.length === 0) ? [defaultGame] : games;
+        games.map((item) => {
+            const itemLink = item._links.self.href;
+            const id = itemLink.replace('http://localhost:1337/games/', '');
+            item.id = id;
+        })
+
+        games = (games.length === 0) ? [] : games;
         return games;
     } catch {
-        alert('Falha ao carregar');
-        return [defaultGame];
+        return [];
     }
 }
 

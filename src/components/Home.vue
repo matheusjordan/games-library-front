@@ -61,4 +61,10 @@ export default {
   .router-container > button:first-of-type {
     margin-right: 16px;
   }
+
+  .router-container > button> a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 600;
+  }
 </style>
