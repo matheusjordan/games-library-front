@@ -20,7 +20,7 @@
 
         <div class="container">
             <div class="title"> Preço </div>
-            <label v-if="!editMode" class="description">R$ {{ game.price }}</label>
+            <label v-if="!editMode" class="description">{{ toMoney(game.price) }}</label>
 
             <div v-else class="input-field">
                 <input type="text" v-model="price">
@@ -73,6 +73,9 @@ export default {
         },
         treatEdit: function() {
             this.editMode = !this.editMode;
+        },
+        toMoney: function(value) {
+            return `R$ ${value}`;
         }
     },
     data() {
@@ -84,7 +87,12 @@ export default {
             image: this.game.image,
             editMode
         }
-    }
+    },
+    // filters: {
+    //     toMoney: function(value) {
+    //         return `R$ ${value}`;
+    //     }
+    // }
 }
 </script>
 
