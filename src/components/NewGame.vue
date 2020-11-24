@@ -1,5 +1,8 @@
 <template>
   <div class="form-container">
+    <div v-if="info" :class="{'info success': info.success, 'info fail': !info.success}">
+      {{ info.msg }}
+    </div>
     <form>
       <div class="container">
         <div class="title"> Título </div>
@@ -45,15 +48,18 @@ export default {
       price: 0,
       description: '',
       image: '',
-      statusMsg: null
+      info: null
     }
   },
   methods: {
     newGame: function() {
+      this.info = null;
       if (this.name === '' || this.description === '' || this.image === '' || this.price <= 0) {
-        alert('Formulário inválido');
+        this.info = { msg: 'Formulário inválido', success: false}
+
         return;
       }
+
       const game = { name: this.name, description: this.description, image: this.image, price: this.price }
       createGame(game)
         .then((data) => {
@@ -62,9 +68,9 @@ export default {
           this.price = 0;
           this.description = '';
           this.image = '';
-            alert('Sucesso ao criar jogo')
+            this.info = { msg: 'Sucesso ao criar jogo', success: true}
           } else {
-            alert('Falha ao criar jogo')
+            this.info = { msg: 'Falha ao criar jogo', success: false}
           }
         });
     }
@@ -113,5 +119,24 @@ export default {
 
   .form-actions > button {
     margin-right: 8px;
+  }
+
+  .info {
+    padding: 10px;
+    margin: 6px 6px 20px 6px;
+    border-radius: 8px;
+    
+    font-weight: 600;
+    transition: .5s;
+  }
+
+  .fail {
+    background: rgb(136, 0, 0);
+    color: white;
+  }
+
+  .success {
+    background: green;
+    color: white;
   }
 </style>
